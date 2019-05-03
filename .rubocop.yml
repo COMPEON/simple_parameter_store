@@ -1,0 +1,17 @@
+AllCops:
+  TargetRubyVersion: 2.6
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Exclude:
+    - 'test/**/*.rb'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'test/**/*.rb'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'test/**/*.rb'
