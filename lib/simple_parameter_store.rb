@@ -50,7 +50,7 @@ class SimpleParameterStore
 
   def fetch
     result = client.get_parameters(names: @mappings.values, with_decryption: decrypt)
-    raise SSMKeyError if result.invalid_parameters.any?
+    raise SSMKeyError, "Missing keys: `#{result.invalid_parameters}`" if result.invalid_parameters.any?
 
     result
   end

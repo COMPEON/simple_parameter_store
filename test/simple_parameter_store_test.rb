@@ -120,6 +120,7 @@ class SimpleParameterStoreTest < Minitest::Test
       SimpleParameterStore.new(names: { missing: 'missing_key' })
     end
     assert_kind_of KeyError, error
+    assert_equal 'Missing keys: `["missing_key"]`', error.message
   end
 
   def test_error_on_missing_key
