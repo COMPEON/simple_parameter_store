@@ -1,6 +1,6 @@
 # SimpleParameterStore
 
-`SimpleParameterStore` gives you an nice abstraction over the AWS SSM Parameter Store.
+`SimpleParameterStore` gives you a nice abstraction over the AWS SSM Parameter Store.
 
 ## Installation
 
@@ -25,13 +25,13 @@ require 'simple_parameter_store'
 
 parameters = SimpleParameterStore.new(
   client: Aws::SSM::Client.new,                           # optional, default: `Aws::SSM::Client.new`, can be used to set custom args for the SSM client
-  prefix: "/#{ENV['ENVIRONMENT']}",                       # optional, default: `nil`, can be used to prefix all parameter names with `/production`
-  expires_after: 3600,                                    # optional, default: `nil`, time in seconds after the store will be refreshed
-  decryp: true,                                           # optional, default: `true`, enable/disable automatic parameter decryption
-  names: {                                                # requires, hash with mapping of parameter names, the key will be used for the store index
-    foo: '/bar',                                          # aliased the key `/bar` (if prefix is `nil`) under the `:foo` in the store
+  prefix: "/#{ENV['ENVIRONMENT']}",                       # optional, default: `nil`, can be used to prefix all parameter names (e.g. with `/production`)
+  expires_after: 3600,                                    # optional, default: `nil`, time in seconds after which the store will be refreshed
+  decrypt: true,                                          # optional, default: `true`, enable/disable automatic parameter decryption
+  names: {                                                # required; hash with mapping of parameter names, the key will be used for the store index
+    foo: '/bar',                                          # aliases the key `/bar` (if prefix is `nil`) as `:foo` in the store
     max: ['max', :to_i.to_proc],                          # the value can be an array with the key as first and a caster as second value,
-    key: ['private_key', OpenSSL::PKey::RSA.method(:new)] # the caster must be respond to `call` and return the converted value
+    key: ['private_key', OpenSSL::PKey::RSA.method(:new)] # the caster must respond to `call` and return the converted value
   }
 )
 
@@ -39,8 +39,8 @@ parameters[:foo] # => `'bar'`
 parameters[:max] # => `123`
 parameters[:key].class # => OpenSSL::PKey::RSA
 
-parameters.refresh           # forces an store refresh
-parameters.refresh_if_needed # refreshes the store is expired
+parameters.refresh           # forces a store refresh
+parameters.refresh_if_needed # refreshes if the store is expired
 ```
 
 ## Development

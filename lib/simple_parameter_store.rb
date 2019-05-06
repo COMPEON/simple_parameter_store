@@ -15,7 +15,7 @@ class SimpleParameterStore
     @casters = {}
     @cache = {}
 
-    prepaire(names)
+    prepare(names)
     refresh
   end
 
@@ -54,7 +54,7 @@ class SimpleParameterStore
     result
   end
 
-  def prepaire(names)
+  def prepare(names)
     names.each_pair do |key, (name, caster)|
       @mappings[key] = "#{prefix}#{name}"
       @casters[key] = caster || :itself.to_proc
