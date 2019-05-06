@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'aws-sdk-ssm'
 
 class SimpleParameterStoreTest < Minitest::Test
   make_my_diffs_pretty!
