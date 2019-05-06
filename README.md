@@ -1,8 +1,6 @@
 # SimpleParameterStore
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/simple_parameter_store`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+`SimpleParameterStore` gives you a nice abstraction over the AWS SSM Parameter Store.
 
 ## Installation
 
@@ -22,7 +20,28 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'simple_parameter_store'
+
+parameters = SimpleParameterStore.new(
+  client: Aws::SSM::Client.new,                           # optional, default: `Aws::SSM::Client.new`, can be used to set custom args for the SSM client
+  prefix: "/#{ENV['ENVIRONMENT']}",                       # optional, default: `nil`, can be used to prefix all parameter names (e.g. with `/production`)
+  expires_after: 3600,                                    # optional, default: `nil`, time in seconds after which the store will be refreshed
+  decrypt: true,                                          # optional, default: `true`, enable/disable automatic parameter decryption
+  names: {                                                # required; hash with mapping of parameter names, the key will be used for the store index
+    foo: '/bar',                                          # aliases the key `/bar` (if prefix is `nil`) as `:foo` in the store
+    max: ['max', :to_i.to_proc],                          # the value can be an array with the key as first and a caster as second value,
+    key: ['private_key', OpenSSL::PKey::RSA.method(:new)] # the caster must respond to `call` and return the converted value
+  }
+)
+
+parameters[:foo] # => `'bar'`
+parameters[:max] # => `123`
+parameters[:key].class # => OpenSSL::PKey::RSA
+
+parameters.refresh           # forces a store refresh
+parameters.refresh_if_needed # refreshes if the store is expired
+```
 
 ## Development
 
