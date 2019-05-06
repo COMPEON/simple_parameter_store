@@ -13,7 +13,7 @@ class SimpleParameterStore
 
     @mappings = {}
     @casters = {}
-    @store = {}
+    @cache = {}
 
     prepaire(names)
     refresh
@@ -26,7 +26,7 @@ class SimpleParameterStore
       key, = @mappings.rassoc(parameter.name)
       caster = @casters.fetch(key)
       value = caster.call(parameter.value)
-      @store[key] = value
+      @cache[key] = value
     end
 
     @expires_at = Time.now + expires_after if expires_after
@@ -42,7 +42,7 @@ class SimpleParameterStore
 
   def [](key)
     refresh_if_needed
-    @store.fetch(key)
+    @cache.fetch(key)
   end
 
   private
