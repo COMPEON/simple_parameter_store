@@ -5,3 +5,5 @@ require 'simple_parameter_store'
 
 require 'minitest/autorun'
 require 'minitest/mock'
+
+require 'mutant/minitest/coverage'

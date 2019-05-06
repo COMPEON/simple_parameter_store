@@ -3,6 +3,8 @@
 require 'test_helper'
 
 class SimpleParameterStoreTest < Minitest::Test
+  cover 'SimpleParameterStore'
+
   make_my_diffs_pretty!
 
   def setup
