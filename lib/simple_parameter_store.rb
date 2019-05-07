@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'simple_parameter_store/mock'
 require 'simple_parameter_store/version'
 require 'aws-sdk-ssm'
 
