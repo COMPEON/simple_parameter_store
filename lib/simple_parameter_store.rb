@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'simple_parameter_store/mock'
 require 'simple_parameter_store/version'
 require 'aws-sdk-ssm'
 
@@ -7,7 +8,7 @@ class SimpleParameterStore
   class SSMKeyError < KeyError; end
 
   def initialize(names:, client: nil, prefix: nil, decrypt: true, expires_after: nil)
-    @client = client || Aws::SSM::Client.new
+    @client = client || build_client
     @prefix = prefix
     @decrypt = decrypt
     @expires_after = expires_after
@@ -60,5 +61,9 @@ class SimpleParameterStore
       @mappings[key] = "#{prefix}#{name}"
       @casters[key] = caster || :itself.to_proc
     end
+  end
+
+  def build_client
+    Aws::SSM::Client.new
   end
 end
