@@ -23,7 +23,7 @@ class SimpleParameterStore
   attr_reader :client, :prefix, :decrypt, :expires_after, :expires_at
 
   def refresh
-    fetch.parameters.each do |parameter|
+    fetch.each do |parameter|
       key, = @mappings.rassoc(parameter.name)
       caster = @casters.fetch(key)
       value = caster.call(parameter.value)
@@ -52,7 +52,7 @@ class SimpleParameterStore
     result = client.get_parameters(names: @mappings.values, with_decryption: decrypt)
     raise SSMKeyError, "Missing keys: `#{result.invalid_parameters}`" if result.invalid_parameters.any?
 
-    result
+    result.parameters
   end
 
   def prepare(names)
