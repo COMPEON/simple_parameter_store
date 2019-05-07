@@ -4,14 +4,6 @@ class SimpleParameterStore
   module Mock
     class MockError < StandardError; end
 
-    class Parameter
-      attr_reader :name, :value
-      def initialize(name, value)
-        @name = name
-        @value = value
-      end
-    end
-
     def self.prepended(base)
       base.extend ClassMethods
     end
@@ -45,7 +37,7 @@ class SimpleParameterStore
 
       def mock=(names:, client: nil, prefix: nil, decrypt: true, expires_after: nil)
         @mock = {
-          cache: names.map { |(key, value)| Parameter.new("#{prefix}#{key}", value) },
+          cache: names.transform_keys { |key| "#{prefix}#{key}" },
           prefix: prefix,
           decrypt: decrypt,
           expires_after: expires_after,
