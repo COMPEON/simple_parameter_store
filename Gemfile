@@ -7,6 +7,6 @@ gemspec
 
 gem 'mutant', github: 'mbj/mutant'
 
-source 'https://6MzqeHoxySwKpgklFubwKEE80auW03cr@gem.mutant.dev' do
+source 'https://oss:6MzqeHoxySwKpgklFubwKEE80auW03cr@gem.mutant.dev' do
   gem 'mutant-license'
 end
