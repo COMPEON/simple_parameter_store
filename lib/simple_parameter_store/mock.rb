@@ -14,7 +14,7 @@ class SimpleParameterStore
       %i[prefix decrypt expires_after client].each do |key|
         current_value = instance_variable_get("@#{key}")
         expected_value = self.class.mock.fetch(key)
-        raise MockError, <<~ERROR unless current_value.equal?(expected_value)
+        raise MockError, <<~ERROR unless current_value.eql?(expected_value)
           Invalid `:#{key}`:
             expected: `#{expected_value}`
              current: `#{current_value}`

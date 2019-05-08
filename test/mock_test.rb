@@ -112,6 +112,20 @@ class MockTest < Minitest::Test
     MESSAGE
   end
 
+  def test_raises_not_on_different_object_identity
+    @mocked_store.mock = {
+      prefix: '/test',
+      names: {}
+    }
+
+    @mocked_store.new(
+      prefix: String.new('/test'),
+      names: {}
+    )
+
+    pass
+  end
+
   def test_reset
     @mocked_store.mock = {
       names: {}
