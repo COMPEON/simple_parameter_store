@@ -1,6 +1,11 @@
 workflow "CI" {
   on = "push"
-  resolves = [
+  resolves = ["CI - All"]
+}
+
+action "CI - All" {
+  uses = "actions/bin/filter@d820d56839906464fb7a57d1b4e1741cf5183efa"
+  needs = [
     "CI - Ruby 2.5",
     "CI - Ruby 2.6",
     "CI - Mutant"
